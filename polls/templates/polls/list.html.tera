@@ -1,3 +1,5 @@
+<ul>
 {% for result in results %}
-<li>{{ result.question_text }}</li>
+<li>[{{ result.id }}] <a href="/polls/{{ result.id }}">{{ result.question_text }}</a></li>
 {% endfor %}
+</ul>

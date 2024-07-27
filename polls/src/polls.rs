@@ -26,6 +26,7 @@ pub fn list() -> Template {
     let connection = &mut establish_connection();
     let results = questions
         .select(Question::as_select())
+        .filter(published.eq(true))
         .limit(5)
         .load(connection)
         .expect("Error loading questions");
@@ -41,6 +42,7 @@ pub fn detail(poll_id: i32) -> Template {
     let result = questions
         .select(Question::as_select())
         .filter(id.eq(poll_id))
+        .filter(published.eq(true))
         .first(connection)
         .expect("Error loading questions");
 
