@@ -13,7 +13,7 @@ diesel::table! {
     questions (id) {
         id -> Integer,
         question_text -> Text,
-        pub_date -> Date,
+        published -> Bool,
     }
 }
 

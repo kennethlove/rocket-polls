@@ -12,7 +12,7 @@ use crate::{establish_connection, schema::questions::dsl::*};
 pub struct Question {
     pub id: i32,
     pub question_text: String,
-    pub pub_date: NaiveDate,
+    pub published: bool,
 }
 
 impl Display for Question {
