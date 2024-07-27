@@ -1,0 +1,2 @@
+<h1>{{ result.question_text }}</h1>
+<p>{{ result.pub_date }}</p>
