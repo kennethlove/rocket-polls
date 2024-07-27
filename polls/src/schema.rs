@@ -11,9 +11,9 @@ diesel::table! {
 
 diesel::table! {
     questions (id) {
-        id -> Nullable<Integer>,
+        id -> Integer,
         question_text -> Text,
-        pub_date -> Timestamp,
+        pub_date -> Date,
     }
 }
 
