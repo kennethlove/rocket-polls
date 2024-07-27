@@ -1,14 +1,14 @@
 use std::fmt::{self, Display, Formatter};
-use rocket::get;
+use rocket::{get, serde::Serialize};
 use rocket::http::Status;
 use rocket::response::status;
+use rocket_dyn_templates::{context, Template};
 use diesel::prelude::*;
-use diesel::sql_types::Date;
-use chrono::{Local, NaiveDate};
-use crate::{establish_connection, schema::{choices::question_id, questions::dsl::*}};
-use crate::schema::questions::dsl::*;
+// use diesel::sql_types::Date;
+use chrono::NaiveDate;
+use crate::{establish_connection, schema::questions::dsl::*};
 
-#[derive(Queryable, Selectable, Debug)]
+#[derive(Queryable, Selectable, Debug, Serialize)]
 #[diesel(table_name = crate::schema::questions)]
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
 pub struct Question {
@@ -24,7 +24,7 @@ impl Display for Question {
 }
 
 #[get("/polls")]
-pub fn index() -> status::Custom<String> {
+pub fn list() -> Template {
     let connection = &mut establish_connection();
     let results = questions
         .select(Question::as_select())
@@ -32,16 +32,9 @@ pub fn index() -> status::Custom<String> {
         .load(connection)
         .expect("Error loading questions");
 
-    let mut response = String::from("Questions:\n");
-    for question in results {
-        response.push_str(&format!("{}\n", question));
-    }
-
-    status::Custom(
-        Status::Ok,
-        response
-   )
-
+    Template::render("polls/list", context! {
+        results
+    })
 }
 
 #[get("/polls/<poll_id>")]
