@@ -2,8 +2,6 @@ use std::fmt::{self, Display, Formatter};
 use rocket::{get, serde::Serialize};
 use rocket_dyn_templates::{context, Template};
 use diesel::prelude::*;
-// use diesel::sql_types::Date;
-use chrono::{Local, NaiveDate};
 use crate::{establish_connection, schema::questions::dsl::*};
 
 #[derive(Queryable, Selectable, Debug, Serialize)]
